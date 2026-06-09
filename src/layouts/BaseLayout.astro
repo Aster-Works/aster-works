@@ -1,0 +1,85 @@
+---
+// =============================================================
+// BaseLayout — 全ページ共通シェル（SEO・フォント・Header/Footer）
+// =============================================================
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../consts';
+
+interface Props {
+  /** ページ固有タイトル。未指定ならトップの既定タイトル。 */
+  title?: string;
+  description?: string;
+  /** OG画像（/public配下のパス or 絶対URL） */
+  image?: string;
+  /** true の場合 title をそのまま使う（"… | Aster Works" を付けない） */
+  rawTitle?: boolean;
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = SITE.ogImage,
+  rawTitle = false,
+} = Astro.props;
+
+const pageTitle = title ? (rawTitle ? title : `${title} | ${SITE.name}`) : SITE.title;
+
+const siteBase = Astro.site ?? new URL(SITE.url);
+const canonicalURL = new URL(Astro.url.pathname, siteBase);
+const ogImageURL = new URL(image, siteBase);
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#FAFAF8" />
+    <meta name="format-detection" content="telephone=no" />
+
+    {/* favicon（ブランドのエンブレム） */}
+    <link rel="icon" type="image/png" href="/logo/favicon.png" />
+    <link rel="apple-touch-icon" href="/logo/aster-works-logo-icon.png" />
+
+    {/* Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:locale" content={SITE.locale} />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    {/* Fonts: 日本語=Noto Sans JP / 英数=Inter（display=swap で高速表示） */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-navy focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+      >本文へスキップ</a
+    >
+    <Header />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,52 @@
+---
+// =============================================================
+// SectionHeading — セクション見出し（小ラベル + 見出し + 説明）
+// =============================================================
+interface Props {
+  /** 上に表示する小さな英字ラベル（任意） */
+  eyebrow?: string;
+  /** 見出しテキスト */
+  title: string;
+  /** 見出し下の説明文（任意） */
+  description?: string;
+  /** 配置 */
+  align?: 'left' | 'center';
+  /** 見出しタグのレベル（既定 h2） */
+  as?: 'h2' | 'h3';
+}
+
+const {
+  eyebrow,
+  title,
+  description,
+  align = 'left',
+  as: Tag = 'h2',
+} = Astro.props as Props;
+
+const isCenter = align === 'center';
+---
+
+<div class:list={['max-w-2xl', isCenter && 'mx-auto text-center']}>
+  {
+    eyebrow && (
+      <span class:list={['aw-eyebrow', isCenter && 'justify-center']}>
+        <span class="h-px w-6 bg-gold/60" aria-hidden="true" />
+        {eyebrow}
+      </span>
+    )
+  }
+  <Tag
+    class:list={[
+      'font-serif font-bold tracking-tight text-navy',
+      'text-2xl sm:text-3xl',
+      eyebrow ? 'mt-3' : '',
+    ]}
+  >
+    {title}
+  </Tag>
+  {
+    description && (
+      <p class="mt-3 text-base leading-8 text-charcoal">{description}</p>
+    )
+  }
+</div>

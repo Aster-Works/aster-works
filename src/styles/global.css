@@ -1,0 +1,130 @@
+@import 'tailwindcss';
+
+/* =============================================================
+   Aster Works — デザイントークン
+   Tailwind v4 の @theme で定義すると、bg-navy / text-gold /
+   border-soft-gray / font-serif などのユーティリティが自動生成されます。
+   色はすべて CSS 変数なので、将来のダークモード対応も
+   :root の値を差し替えるだけで可能です。
+   ============================================================= */
+@theme {
+  /* ブランドカラー（仕様書 §7） */
+  --color-navy: #0d1b2a;
+  --color-charcoal: #2b2d31;
+  --color-gold: #d4a24c;
+  --color-soft-gray: #e6e7e8;
+  --color-background: #fafaf8;
+
+  /* 補助トーン（温かみ・UIステート用の派生色） */
+  --color-gold-soft: #f3ead7;
+  --color-cream: #f4f1ea;
+  --color-ink: #1c2733; /* 本文よりわずかに柔らかい黒に近い navy */
+
+  /* フォント */
+  --font-sans: 'Inter', 'Noto Sans JP', ui-sans-serif, system-ui, -apple-system,
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+  --font-serif: 'Georgia', 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho',
+    serif;
+}
+
+/* =============================================================
+   ベーススタイル
+   ============================================================= */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-navy);
+    line-height: 1.8;
+    letter-spacing: 0.01em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1.4;
+    letter-spacing: 0.005em;
+  }
+
+  /* フォーカスリング（アクセシビリティ） */
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-gold) 28%, transparent);
+    color: var(--color-navy);
+  }
+}
+
+/* =============================================================
+   共通コンポーネントクラス
+   ============================================================= */
+@layer components {
+  /* ページ共通の最大幅コンテナ（スマホファーストの余白） */
+  .aw-container {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+  }
+
+  /* 文章主体ページ用の読みやすい幅 */
+  .aw-prose-container {
+    @apply mx-auto w-full max-w-3xl px-5 sm:px-6 lg:px-8;
+  }
+
+  /* ボタン（Tailwind v4 では @apply でカスタムクラスを合成できないため各自完結） */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out bg-navy text-white shadow-sm hover:-translate-y-0.5 hover:bg-ink hover:shadow-md;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium tracking-wide transition-all duration-200 ease-out border border-navy/15 bg-white/70 text-navy hover:border-navy/30 hover:bg-white;
+  }
+
+  /* カテゴリ等の小さなラベル（英字・トラッキング広め） */
+  .aw-eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-gold;
+  }
+
+  /* カード共通 */
+  .aw-card {
+    @apply rounded-2xl border border-soft-gray bg-white p-6 transition-all duration-200 ease-out sm:p-7;
+  }
+  .aw-card-hover {
+    @apply hover:-translate-y-1 hover:border-gold/40 hover:shadow-[0_18px_40px_-24px_rgba(13,27,42,0.35)];
+  }
+
+  /* バッジ */
+  .aw-badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-semibold tracking-wide;
+  }
+}
+
+/* =============================================================
+   文章主体ページ（Privacy / Terms / About 一部）の体裁
+   ============================================================= */
+@layer components {
+  .aw-doc :where(h2) {
+    @apply mt-12 mb-3 text-xl font-bold text-navy first:mt-0;
+  }
+  .aw-doc :where(h3) {
+    @apply mt-8 mb-2 text-base font-bold text-navy;
+  }
+  .aw-doc :where(p) {
+    @apply my-4 text-[15px] leading-8 text-charcoal;
+  }
+  .aw-doc :where(ul) {
+    @apply my-4 list-disc space-y-2 pl-5 text-[15px] leading-8 text-charcoal marker:text-gold;
+  }
+  .aw-doc :where(a) {
+    @apply text-navy underline decoration-gold/50 underline-offset-4 hover:decoration-gold;
+  }
+}

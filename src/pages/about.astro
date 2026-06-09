@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+
+const values = [
+  {
+    title: 'すぐ使える',
+    body: '会員登録や長い説明なしに、必要な場面でそのまま使えること。',
+  },
+  {
+    title: '迷わない',
+    body: '画面はできるだけシンプルに。どう使うか迷わせないこと。',
+  },
+  {
+    title: '確かに役立つ',
+    body: '派手さよりも、毎日の作業や判断が少し軽くなる実用性を。',
+  },
+];
+
+const pageDesc =
+  'Aster Works は、日々の仕事、学び、暮らしの中にある小さな手間や迷いを減らすためのデジタルツールをつくっています。';
+---
+
+<BaseLayout title="About" description={pageDesc}>
+  <PageHeader eyebrow="About" title="Aster Works について" lead={pageDesc} />
+
+  {/* イントロ */}
+  <section class="py-14 sm:py-18">
+    <div class="aw-prose-container">
+      <div class="space-y-6 text-base leading-8 text-charcoal">
+        <p>
+          大切にしているのは、難しい機能を増やすことではなく、必要な場面で、すぐに使えて、確かに役立つことです。
+        </p>
+        <p class="font-serif text-lg leading-9 text-navy">
+          文章を整える。費用を見える化する。情報を整理する。判断の助けをつくる。
+        </p>
+        <p>
+          そうした小さな道具を通して、毎日の成果が少し明るくなることを目指しています。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* 大切にしている価値 */}
+  <section class="border-y border-soft-gray bg-white py-14 sm:py-18">
+    <div class="aw-container">
+      <h2 class="font-serif text-2xl font-bold tracking-tight text-navy">
+        大切にしている価値
+      </h2>
+      <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        {
+          values.map((v, i) => (
+            <div class="aw-card flex h-full flex-col">
+              <span class="font-serif text-sm font-bold text-gold">
+                0{i + 1}
+              </span>
+              <h3 class="mt-2 font-serif text-lg font-bold text-navy">
+                {v.title}
+              </h3>
+              <p class="mt-2 text-sm leading-7 text-charcoal">{v.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {/* どんなツールをつくるか */}
+  <section class="py-14 sm:py-18">
+    <div class="aw-prose-container">
+      <h2 class="font-serif text-2xl font-bold tracking-tight text-navy">
+        どんなツールをつくるか
+      </h2>
+      <div class="mt-5 space-y-5 text-base leading-8 text-charcoal">
+        <p>
+          仕事の「口コミ返信や文章づくり」、学びの「計画やノートの整理」、暮らしの「費用シミュレーションや家計の見える化」。
+          領域はさまざまですが、共通しているのは “小さくて、すぐ役立つ”
+          ことです。
+        </p>
+        <p>
+          まずは少数のツールから。実際に使われ、役に立つものを、ていねいに増やしていきます。
+        </p>
+      </div>
+      <a
+        href="/tools"
+        class="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-navy transition-colors hover:text-gold"
+      >
+        公開・準備中のツールを見る
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+      </a>
+    </div>
+  </section>
+
+  {/* 技術とAIについて（控えめに） */}
+  <section class="border-y border-soft-gray bg-white py-14 sm:py-18">
+    <div class="aw-prose-container">
+      <h2 class="font-serif text-2xl font-bold tracking-tight text-navy">
+        技術とAIについて
+      </h2>
+      <div class="mt-5 space-y-5 text-base leading-8 text-charcoal">
+        <p>
+          Aster Works
+          は、Web技術、テンプレート設計、必要に応じたAI活用を組み合わせて、日々の作業を助ける実用的なデジタルツールをつくっています。
+        </p>
+        <p>
+          技術そのものを前面に出すよりも、使いやすく、わかりやすく、実際に役立つことを大切にしています。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {/* これから */}
+  <section class="py-14 sm:py-18">
+    <div class="aw-prose-container text-center">
+      <h2 class="font-serif text-2xl font-bold tracking-tight text-navy">
+        これから
+      </h2>
+      <p class="mx-auto mt-5 max-w-xl text-base leading-8 text-charcoal">
+        仕事・学び・暮らしのために、小さな道具を少しずつ。ご要望やご相談があれば、いつでもお寄せください。
+      </p>
+      <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a href="/tools" class="btn-primary w-full sm:w-auto">ツールを見る</a>
+        <a href="/contact" class="btn-secondary w-full sm:w-auto">お問い合わせ</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,77 @@
+---
+// =============================================================
+// CategoryCard — Work / Learning / Life の領域カード
+// =============================================================
+interface Props {
+  name: 'Work' | 'Learning' | 'Life';
+  /** 日本語ラベル（仕事・学び・暮らし） */
+  label: string;
+  description: string;
+}
+
+const { name, label, description } = Astro.props;
+---
+
+<div class="aw-card aw-card-hover flex h-full flex-col">
+  <div
+    class="flex h-11 w-11 items-center justify-center rounded-xl bg-gold-soft text-navy"
+    aria-hidden="true"
+  >
+    {
+      name === 'Work' && (
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="7" width="18" height="13" rx="2" />
+          <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          <path d="M3 13h18" />
+        </svg>
+      )
+    }
+    {
+      name === 'Learning' && (
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 7C10.2 5.8 8 5.2 5.5 5.2c-.9 0-1.5.6-1.5 1.4v9.6c0 .8.7 1.4 1.5 1.4 2.5 0 4.7.6 6.5 1.8 1.8-1.2 4-1.8 6.5-1.8.8 0 1.5-.6 1.5-1.4V6.6c0-.8-.6-1.4-1.5-1.4C16 5.2 13.8 5.8 12 7Z" />
+          <path d="M12 7v12" />
+        </svg>
+      )
+    }
+    {
+      name === 'Life' && (
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 11.5 12 5l8 6.5" />
+          <path d="M6 10.5V19a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-8.5" />
+          <path d="M10 20v-5h4v5" />
+        </svg>
+      )
+    }
+  </div>
+
+  <div class="mt-4 flex items-baseline gap-2.5">
+    <h3 class="font-serif text-lg font-bold text-navy">{name}</h3>
+    <span class="text-sm font-medium text-charcoal/55">{label}</span>
+  </div>
+  <p class="mt-2 text-sm leading-7 text-charcoal">{description}</p>
+</div>

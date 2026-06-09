@@ -1,0 +1,37 @@
+---
+// =============================================================
+// Hero — トップページのファーストビュー
+// =============================================================
+---
+
+<section class="relative overflow-hidden">
+  {/* 背景：白→生成りのグラデと、ほのかなゴールドの光 */}
+  <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+    <div class="absolute inset-0 bg-gradient-to-b from-white via-background to-background"></div>
+    <div
+      class="absolute left-1/2 top-[-12%] h-[440px] w-[440px] -translate-x-1/2 rounded-full bg-gold/10 blur-3xl sm:h-[560px] sm:w-[560px]"
+    >
+    </div>
+  </div>
+
+  <div class="aw-container py-20 text-center sm:py-28 lg:py-32">
+    <h1
+      class="mx-auto max-w-3xl font-serif text-3xl font-bold leading-[1.35] tracking-tight text-navy sm:text-4xl lg:text-[2.95rem]"
+    >
+      小さな道具で、<br class="hidden sm:block" />明るい未来を。
+    </h1>
+
+    <p class="mx-auto mt-6 max-w-2xl text-base leading-8 text-charcoal sm:text-lg">
+      Aster Works は、仕事・学び・暮らしを照らす、<br class="hidden sm:block" />
+      実用的なデジタルツールをつくっています。
+    </p>
+    <p class="mx-auto mt-4 max-w-xl text-sm leading-7 text-charcoal/80 sm:text-base">
+      文章作成、費用計算、情報整理、日々の判断を助ける、小さくて使いやすいWebツールを少しずつ公開しています。
+    </p>
+
+    <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+      <a href="/tools" class="btn-primary w-full sm:w-auto">ツールを見る</a>
+      <a href="/about" class="btn-secondary w-full sm:w-auto">Aster Worksについて</a>
+    </div>
+  </div>
+</section>

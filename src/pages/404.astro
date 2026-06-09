@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pageDesc = 'お探しのページは見つかりませんでした。';
+---
+
+<BaseLayout title="ページが見つかりません" description={pageDesc}>
+  <section class="aw-container flex flex-col items-center py-24 text-center sm:py-32">
+    <span class="font-serif text-6xl font-bold tracking-tight text-gold sm:text-7xl"
+      >404</span
+    >
+    <h1 class="mt-4 font-serif text-2xl font-bold text-navy sm:text-3xl">
+      ページが見つかりませんでした
+    </h1>
+    <p class="mx-auto mt-4 max-w-md text-base leading-8 text-charcoal">
+      お探しのページは移動または削除された可能性があります。トップページから、もう一度お探しください。
+    </p>
+    <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row">
+      <a href="/" class="btn-primary w-full sm:w-auto">トップへ戻る</a>
+      <a href="/tools" class="btn-secondary w-full sm:w-auto">ツールを見る</a>
+    </div>
+  </section>
+</BaseLayout>

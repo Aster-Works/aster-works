@@ -1,0 +1,42 @@
+---
+// =============================================================
+// PageHeader — 下層ページ共通のヘッダー帯
+// =============================================================
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+  center?: boolean;
+}
+
+const { eyebrow, title, lead, center = false } = Astro.props;
+---
+
+<section class="relative overflow-hidden border-b border-soft-gray">
+  <div
+    class="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-white to-background"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="aw-container py-14 sm:py-20">
+    <div class:list={['max-w-2xl', center && 'mx-auto text-center']}>
+      {
+        eyebrow && (
+          <span class:list={['aw-eyebrow', center && 'justify-center']}>
+            <span class="h-px w-6 bg-gold/60" aria-hidden="true" />
+            {eyebrow}
+          </span>
+        )
+      }
+      <h1
+        class:list={[
+          'font-serif text-3xl font-bold tracking-tight text-navy sm:text-4xl',
+          eyebrow && 'mt-3',
+        ]}
+      >
+        {title}
+      </h1>
+      {lead && <p class="mt-4 text-base leading-8 text-charcoal">{lead}</p>}
+    </div>
+  </div>
+</section>

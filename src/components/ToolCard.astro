@@ -1,0 +1,68 @@
+---
+// =============================================================
+// ToolCard — ツール1件分のカード
+// status が 'coming-soon' の間はリンク切れを避け「準備中」表示。
+// 公開時（status:'available' + href または個別ページ）にリンク化されます。
+// =============================================================
+import type { Tool } from '../data/tools';
+
+interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+const isComingSoon = tool.status === 'coming-soon';
+const detailHref = tool.href ?? `/tools/${tool.slug}`;
+const linkable = !isComingSoon;
+---
+
+<article
+  class:list={[
+    'aw-card group flex h-full flex-col',
+    linkable && 'aw-card-hover',
+  ]}
+  data-category={tool.category}
+>
+  <div class="flex items-center justify-between gap-3">
+    <span class="aw-badge bg-gold-soft text-charcoal/80">{tool.category}</span>
+    {
+      isComingSoon && (
+        <span class="aw-badge border border-soft-gray text-charcoal/55">
+          Coming Soon
+        </span>
+      )
+    }
+  </div>
+
+  <h3 class="mt-4 font-serif text-lg font-bold text-navy">{tool.title}</h3>
+  <p class="mt-2 flex-1 text-sm leading-7 text-charcoal">{tool.description}</p>
+
+  <div class="mt-5">
+    {
+      linkable ? (
+        <a
+          href={detailHref}
+          class="inline-flex items-center gap-1.5 text-sm font-semibold text-navy transition-colors hover:text-gold"
+        >
+          詳しく見る
+          <svg
+            class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M5 12h14M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      ) : (
+        <span class="inline-flex items-center gap-1.5 text-sm font-medium text-charcoal/40">
+          準備中
+        </span>
+      )
+    }
+  </div>
+</article>
