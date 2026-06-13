@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const pageDesc = 'お探しのページは見つかりませんでした。';
 ---
 
-<BaseLayout title="ページが見つかりません" description={pageDesc}>
+<BaseLayout title="ページが見つかりません" description={pageDesc} noindex>
   <section class="aw-container flex flex-col items-center py-24 text-center sm:py-32">
     <span class="font-serif text-6xl font-bold tracking-tight text-gold sm:text-7xl"
       >404</span

@@ -1,0 +1,28 @@
+---
+// =============================================================
+// GoogleAnalytics — GA4 (gtag.js)
+// 本番ビルド（import.meta.env.PROD）かつ SITE.gaId が設定されている時のみ出力。
+// ローカル開発・プレビューでは読み込まないので、自分のアクセスで数字が汚れない。
+// 測定IDは consts.ts の SITE.gaId（G-XXXXXXXXXX）で一元管理。
+// =============================================================
+import { SITE } from '../consts';
+
+const gaId = SITE.gaId;
+const enabled = import.meta.env.PROD && Boolean(gaId);
+---
+
+{
+  enabled && (
+    <Fragment>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} />
+      <script is:inline define:vars={{ gaId }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', gaId);
+      </script>
+    </Fragment>
+  )
+}

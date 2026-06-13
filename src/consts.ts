@@ -24,6 +24,18 @@ export const SITE = {
   copyrightYear: 2026,
   lang: 'ja',
   locale: 'ja_JP',
+  /**
+   * Google Analytics 4 の測定ID（例: 'G-XXXXXXXXXX'）。
+   * 本番ビルド（PROD）かつ値がある時だけ gtag を読み込む（ローカル開発では無効）。
+   * GA4 プロパティを作成したら、ここに測定IDを設定して再デプロイすれば計測開始。
+   */
+  gaId: '',
+  /**
+   * Google Search Console「HTMLタグ」認証の content 値だけを入れる。
+   * 例: 認証タグが <meta name="google-site-verification" content="abc123"> なら 'abc123'。
+   * 空なら何も出力しない。
+   */
+  googleSiteVerification: '',
 } as const;
 
 /** ヘッダー／フッターのナビゲーション */
