@@ -6,7 +6,7 @@
 export const SITE = {
   name: 'Aster Works',
   /** 本番ドメイン。astro.config.mjs の `site` と揃えてください。 */
-  url: 'https://aster-works.vercel.app',
+  url: 'https://www.asterworks.org',
   /** トップページ <title> */
   title: 'Aster Works | 小さな道具で、明るい未来を。',
   /** 既定の meta description / OG description */

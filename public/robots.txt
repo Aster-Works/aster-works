@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-# 本番ドメインに変更したら、このURLも更新してください（astro.config.mjs の site と一致させる）
-Sitemap: https://aster-works.vercel.app/sitemap-index.xml
+# astro.config.mjs の site と一致させること
+Sitemap: https://www.asterworks.org/sitemap-index.xml
