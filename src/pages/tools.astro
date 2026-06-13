@@ -1,8 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
+import SectionHeading from '../components/SectionHeading.astro';
 import ToolCard from '../components/ToolCard.astro';
-import { tools, categoryOrder } from '../data/tools';
+import DeveloperToolCard from '../components/DeveloperToolCard.astro';
+import { consumerTools, developerTools, categoryOrder } from '../data/tools';
 
 const filters = [
   { key: 'all', label: 'すべて' },
@@ -40,7 +42,7 @@ const pageDesc =
           }
         </div>
         <p class="text-sm text-charcoal/60">
-          現在 {tools.length} 件（準備中を含む）
+          現在 {consumerTools.length} 件（準備中を含む）
         </p>
       </div>
 
@@ -49,7 +51,7 @@ const pageDesc =
         class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
       >
         {
-          tools.map((tool) => (
+          consumerTools.map((tool) => (
             <div class="tool-item" data-category={tool.category}>
               <ToolCard tool={tool} />
             </div>
@@ -65,6 +67,26 @@ const pageDesc =
       </p>
     </div>
   </section>
+
+  {/* --- 開発者向けツール --- */}
+  {
+    developerTools.length > 0 && (
+      <section id="developers" class="border-t border-soft-gray bg-white py-14 sm:py-20">
+        <div class="aw-container">
+          <SectionHeading
+            eyebrow="For Developers"
+            title="開発者向けツール"
+            description="個人開発者・Claude Code ユーザー向けに、実際に使えるツールを公開しています。"
+          />
+          <div class="mx-auto mt-10 max-w-3xl space-y-5">
+            {developerTools.map((tool) => (
+              <DeveloperToolCard tool={tool} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   <script>
     const pills = Array.from(
