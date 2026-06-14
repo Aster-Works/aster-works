@@ -9,6 +9,9 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.asterworks.org',
+  // 末尾スラッシュを正規形に統一（canonical/sitemap と一致させ、重複URLを防ぐ）。
+  // Vercel 側も vercel.json の "trailingSlash": true で /path → /path/ に 308。
+  trailingSlash: 'always',
   integrations: [mdx(), sitemap()],
   vite: {
     plugins: [tailwindcss()],
