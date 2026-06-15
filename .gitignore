@@ -22,3 +22,6 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 .vercel
+
+# ロゴ差し替え前のオリジナル退避（デプロイ対象外）
+_logo_backup/
