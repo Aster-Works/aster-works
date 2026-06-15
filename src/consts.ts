@@ -19,7 +19,7 @@ export const SITE = {
   /** OGP 画像（1200×630 PNG・ブランドロゴ入り） */
   ogImage: '/og-image.png',
   /** 問い合わせ先メール */
-  email: 'jimiaki7@gmail.com',
+  email: 'asterworks3322@gmail.com',
   /** 著作権表記の年 */
   copyrightYear: 2026,
   lang: 'ja',
