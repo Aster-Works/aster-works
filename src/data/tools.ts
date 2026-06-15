@@ -58,6 +58,15 @@ export const tools: Tool[] = [
     ],
   },
   {
+    title: 'Aster Tools',
+    slug: 'aster-tools',
+    category: 'Life',
+    status: 'available',
+    description:
+      '年齢・ローン・税金の計算から単位変換、文章づくりまで——暮らしと仕事の小さな手間を解く無料ツール集です。登録不要・多言語対応。',
+    href: 'https://astertools.app/',
+  },
+  {
     title: 'Synaxis',
     slug: 'synaxis',
     category: 'Work',
