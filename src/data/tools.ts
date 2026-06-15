@@ -58,28 +58,12 @@ export const tools: Tool[] = [
     ],
   },
   {
-    title: 'Google口コミ返信メーカー',
-    slug: 'google-review-reply-maker',
+    title: 'Synaxis',
+    slug: 'synaxis',
     category: 'Work',
     status: 'coming-soon',
     description:
-      '店舗やサービスへの口コミに、自然で丁寧な返信文を作るためのツールです。',
-  },
-  {
-    title: '介護費シミュレーター',
-    slug: 'care-cost-simulator',
-    category: 'Life',
-    status: 'coming-soon',
-    description:
-      '親の介護にかかる費用の目安を整理し、家族で考えるためのシミュレーターです。',
-  },
-  {
-    title: 'サブスク費用チェッカー',
-    slug: 'subscription-cost-checker',
-    category: 'Life',
-    status: 'coming-soon',
-    description:
-      '毎月のサブスクリプション費用を見える化し、年間コストを確認するツールです。',
+      '礼拝出席と昼食申し込みをシンプルに管理する、教会向けマルチテナントSaaSです。',
   },
 ];
 
