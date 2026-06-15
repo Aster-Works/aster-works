@@ -65,6 +65,14 @@ export const tools: Tool[] = [
     description:
       '礼拝出席と昼食申し込みをシンプルに管理する、教会向けマルチテナントSaaSです。',
   },
+  {
+    title: 'Keryx',
+    slug: 'keryx',
+    category: 'Work',
+    status: 'coming-soon',
+    description:
+      '説教の計画から礼拝準備、振り返りまでをひとつにまとめる、日本語ファーストの牧師向けワークスペースです。',
+  },
 ];
 
 /** 消費者向けツール（仕事 / 学び / 暮らし）。/tools のフィルタ対象。 */
