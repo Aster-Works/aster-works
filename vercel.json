@@ -9,11 +9,11 @@
       "permanent": true
     },
     { "source": "/", "destination": "/ja/", "permanent": true },
-    { "source": "/tools", "destination": "/ja/tools/", "permanent": true },
-    { "source": "/about", "destination": "/ja/about/", "permanent": true },
-    { "source": "/contact", "destination": "/ja/contact/", "permanent": true },
-    { "source": "/privacy", "destination": "/ja/privacy/", "permanent": true },
-    { "source": "/terms", "destination": "/ja/terms/", "permanent": true },
-    { "source": "/tokushoho", "destination": "/ja/tokushoho/", "permanent": true }
+    { "source": "/tools{/}?", "destination": "/ja/tools/", "permanent": true },
+    { "source": "/about{/}?", "destination": "/ja/about/", "permanent": true },
+    { "source": "/contact{/}?", "destination": "/ja/contact/", "permanent": true },
+    { "source": "/privacy{/}?", "destination": "/ja/privacy/", "permanent": true },
+    { "source": "/terms{/}?", "destination": "/ja/terms/", "permanent": true },
+    { "source": "/tokushoho{/}?", "destination": "/ja/tokushoho/", "permanent": true }
   ]
 }
