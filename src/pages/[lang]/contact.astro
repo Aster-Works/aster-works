@@ -1,33 +1,37 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PageHeader from '../components/PageHeader.astro';
-import { SITE } from '../consts';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { SITE } from '../../consts';
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizePath,
+  getStaticLangPaths,
+} from '../../i18n/ui';
 
-const pageDesc =
-  'ツールのご要望、制作のご相談、不具合の報告などがありましたら、お気軽にご連絡ください。';
+export const getStaticPaths = getStaticLangPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const c = t.contactPage;
+const privacyHref = localizePath('/privacy', lang);
 
 const mailtoHref = `mailto:${SITE.email}?subject=${encodeURIComponent(
-  'Aster Works へのお問い合わせ'
+  c.mailSubject
 )}`;
-
-const topics = [
-  'ツールへのご要望・改善のアイデア',
-  '制作・お仕事のご相談',
-  '不具合・表示についてのご報告',
-];
 ---
 
-<BaseLayout title="Contact" description={pageDesc}>
-  <PageHeader eyebrow="Contact" title="お問い合わせ" lead={pageDesc} />
+<BaseLayout title={c.pageTitle} description={c.description}>
+  <PageHeader eyebrow={c.eyebrow} title={c.headerTitle} lead={c.description} />
 
   <section class="py-14 sm:py-20">
     <div class="aw-prose-container">
       <div class="rounded-3xl border border-soft-gray bg-white p-7 sm:p-10">
         <h2 class="font-serif text-xl font-bold text-navy">
-          メールでのご連絡
+          {c.emailHeading}
         </h2>
         <p class="mt-3 text-base leading-8 text-charcoal">
-          下記のメールアドレス宛にご連絡ください。いただいた内容を確認のうえ、順次ご返信いたします。
+          {c.emailBody}
         </p>
 
         <div
@@ -35,7 +39,7 @@ const topics = [
         >
           <div>
             <p class="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
-              Email
+              {c.emailLabel}
             </p>
             <a
               href={mailtoHref}
@@ -44,17 +48,17 @@ const topics = [
               {SITE.email}
             </a>
           </div>
-          <a href={mailtoHref} class="btn-primary shrink-0">メールを送る</a>
+          <a href={mailtoHref} class="btn-primary shrink-0">{c.sendButton}</a>
         </div>
 
         <div class="mt-8">
-          <h3 class="text-sm font-bold text-navy">こんなときに</h3>
+          <h3 class="text-sm font-bold text-navy">{c.topicsHeading}</h3>
           <ul class="mt-3 space-y-2">
             {
-              topics.map((t) => (
+              c.topics.map((topic) => (
                 <li class="flex items-start gap-2.5 text-sm leading-7 text-charcoal">
                   <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
-                  {t}
+                  {topic}
                 </li>
               ))
             }
@@ -62,13 +66,12 @@ const topics = [
         </div>
 
         <p class="mt-8 text-xs leading-6 text-charcoal/60">
-          ※
-          お問い合わせフォームは準備中です。当面はメールにて承ります。いただいた個人情報は、ご返信の目的にのみ使用します（詳しくは
+          {c.noteBefore}
           <a
-            href="/privacy"
+            href={privacyHref}
             class="underline decoration-gold/50 underline-offset-2 hover:decoration-gold"
-            >プライバシーポリシー</a
-          >をご覧ください）。
+            >{c.noteLink}</a
+          >{c.noteAfter}
         </p>
       </div>
     </div>

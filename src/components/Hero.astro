@@ -2,6 +2,13 @@
 // =============================================================
 // Hero — トップページのファーストビュー
 // =============================================================
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const h = t.hero;
+const toolsHref = localizePath('/tools', lang);
+const aboutHref = localizePath('/about', lang);
 ---
 
 <section class="relative overflow-hidden">
@@ -18,20 +25,20 @@
     <h1
       class="mx-auto max-w-3xl font-serif text-3xl font-bold leading-[1.35] tracking-tight text-navy sm:text-4xl lg:text-[2.95rem]"
     >
-      小さな道具で、<br class="hidden sm:block" />明るい未来を。
+      {h.titleLine1}<br class="hidden sm:block" />{h.titleLine2}
     </h1>
 
     <p class="mx-auto mt-6 max-w-2xl text-base leading-8 text-charcoal sm:text-lg">
-      Aster Works は、仕事・学び・暮らしを照らす、<br class="hidden sm:block" />
-      実用的なデジタルツールをつくっています。
+      {h.sub1a}<br class="hidden sm:block" />
+      {h.sub1b}
     </p>
     <p class="mx-auto mt-4 max-w-xl text-sm leading-7 text-charcoal/80 sm:text-base">
-      文章作成、費用計算、情報整理、日々の判断を助ける、小さくて使いやすいWebツールを少しずつ公開しています。
+      {h.sub2}
     </p>
 
     <div class="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-      <a href="/tools" class="btn-primary w-full sm:w-auto">ツールを見る</a>
-      <a href="/about" class="btn-secondary w-full sm:w-auto">Aster Worksについて</a>
+      <a href={toolsHref} class="btn-primary w-full sm:w-auto">{h.ctaPrimary}</a>
+      <a href={aboutHref} class="btn-secondary w-full sm:w-auto">{h.ctaSecondary}</a>
     </div>
   </div>
 </section>

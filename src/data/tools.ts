@@ -1,18 +1,24 @@
 // =============================================================
-// ツールデータ
+// ツールデータ（多言語）
 // 将来 /tools/[slug] の個別ページを追加する場合も、この配列を起点にできます。
 // status: 'available' になったら href に実URL（または個別ページ）を設定してください。
 //
+// title（ブランド名）は言語非依存。description / tagline / highlights は
+// 言語別に保持し、カード側で tool.description[lang] のように参照します。
 // カテゴリは消費者向け（Work / Learning / Life）と開発者向け（Developer）に
-// 分かれます。Developer は専用セクション（DeveloperToolCard）で表示し、
-// 消費者向けツール一覧のフィルタには混ぜません。
+// 分かれます。Developer は専用セクション（DeveloperToolCard）で表示します。
 // =============================================================
+import type { Lang } from '../i18n/ui';
 
 export type ToolStatus = 'available' | 'coming-soon';
 export type ToolCategory = 'Work' | 'Learning' | 'Life' | 'Developer';
 
+/** 言語別の文字列 / 文字列配列 */
+type L10n = Record<Lang, string>;
+type L10nList = Record<Lang, string[]>;
+
 export interface Tool {
-  /** 表示名 */
+  /** 表示名（ブランド名・言語非依存） */
   title: string;
   /** URL用スラッグ（将来の /tools/[slug] 用） */
   slug: string;
@@ -20,22 +26,22 @@ export interface Tool {
   category: ToolCategory;
   /** 公開状況 */
   status: ToolStatus;
-  /** 一覧・カードに出す短い説明 */
-  description: string;
+  /** 一覧・カードに出す短い説明（言語別） */
+  description: L10n;
   /** 公開済みの場合のリンク先（外部URL or /tools/[slug]）。未設定なら準備中表示。 */
   href?: string;
 
   // --- 以下は開発ツール（category: 'Developer'）向けの任意フィールド ---
-  /** カードに出す短いキャッチコピー */
-  tagline?: string;
-  /** すぐ試せるインストール / 実行コマンド */
+  /** カードに出す短いキャッチコピー（言語別） */
+  tagline?: L10n;
+  /** すぐ試せるインストール / 実行コマンド（言語非依存） */
   install?: string;
   /** npm パッケージページ */
   npmUrl?: string;
   /** ソースコード（GitHub） */
   repoUrl?: string;
-  /** カードに出す要点（3〜4点） */
-  highlights?: string[];
+  /** カードに出す要点（3〜4点・言語別） */
+  highlights?: L10nList;
 }
 
 export const tools: Tool[] = [
@@ -44,26 +50,41 @@ export const tools: Tool[] = [
     slug: 'aster-guard',
     category: 'Developer',
     status: 'available',
-    description:
-      'MCPサーバーや .mcp.json を「つなぐ前に」点検する、軽量なセキュリティ診断ツールです。Claude Code ユーザーと個人AI開発者のために。',
-    tagline: 'つなぐ前に、ひと目で安全確認。',
+    description: {
+      ja: 'MCPサーバーや .mcp.json を「つなぐ前に」点検する、軽量なセキュリティ診断ツールです。Claude Code ユーザーと個人AI開発者のために。',
+      en: 'A lightweight security scanner that checks MCP servers and .mcp.json before you connect them — built for Claude Code users and indie AI developers.',
+    },
+    tagline: {
+      ja: 'つなぐ前に、ひと目で安全確認。',
+      en: 'Check safety at a glance, before you connect.',
+    },
     install: 'npx @asterworks/aster-guard scan',
     npmUrl: 'https://www.npmjs.com/package/@asterworks/aster-guard',
     repoUrl: 'https://github.com/jimiaki7/aster-guard',
-    highlights: [
-      '11種類のリスクを静的解析で検出（プロンプトインジェクション・秘密情報・危険なインストール等）',
-      'リスクスコア（0–100）と評価（A–F）を、日本語／英語のレポートで提示',
-      'ローカル完結・外部送信なし。既定は読み取り専用で安全',
-      'Claude Code から呼べる MCP サーバー／GitHub Actions にも対応',
-    ],
+    highlights: {
+      ja: [
+        '11種類のリスクを静的解析で検出（プロンプトインジェクション・秘密情報・危険なインストール等）',
+        'リスクスコア（0–100）と評価（A–F）を、日本語／英語のレポートで提示',
+        'ローカル完結・外部送信なし。既定は読み取り専用で安全',
+        'Claude Code から呼べる MCP サーバー／GitHub Actions にも対応',
+      ],
+      en: [
+        'Detects 11 risk types via static analysis (prompt injection, secrets, dangerous installs, and more)',
+        'Reports a risk score (0–100) and grade (A–F) in a Japanese or English report',
+        'Runs fully local with no external transmission; read-only by default for safety',
+        'Works as an MCP server callable from Claude Code, and in GitHub Actions',
+      ],
+    },
   },
   {
     title: 'Aster Tools',
     slug: 'aster-tools',
     category: 'Life',
     status: 'available',
-    description:
-      '年齢・ローン・税金の計算から単位変換、文章づくりまで——暮らしと仕事の小さな手間を解く無料ツール集です。登録不要・多言語対応。',
+    description: {
+      ja: '年齢・ローン・税金の計算から単位変換、文章づくりまで——暮らしと仕事の小さな手間を解く無料ツール集です。登録不要・多言語対応。',
+      en: 'From age, loan, and tax calculators to unit conversion and writing helpers — a free toolkit for the small chores of work and daily life. No sign-up, multilingual.',
+    },
     href: 'https://astertools.app/',
   },
   {
@@ -71,16 +92,20 @@ export const tools: Tool[] = [
     slug: 'synaxis',
     category: 'Work',
     status: 'coming-soon',
-    description:
-      '礼拝出席と昼食申し込みをシンプルに管理する、教会向けマルチテナントSaaSです。',
+    description: {
+      ja: '礼拝出席と昼食申し込みをシンプルに管理する、教会向けマルチテナントSaaSです。',
+      en: 'A multi-tenant SaaS for churches that simply manages worship attendance and lunch sign-ups.',
+    },
   },
   {
     title: 'Keryx',
     slug: 'keryx',
     category: 'Work',
     status: 'coming-soon',
-    description:
-      '説教の計画から礼拝準備、振り返りまでをひとつにまとめる、日本語ファーストの牧師向けワークスペースです。',
+    description: {
+      ja: '説教の計画から礼拝準備、振り返りまでをひとつにまとめる、日本語ファーストの牧師向けワークスペースです。',
+      en: 'A Japanese-first workspace for pastors that brings sermon planning, service preparation, and reflection together in one place.',
+    },
   },
 ];
 
@@ -96,14 +121,3 @@ export const developerTools: Tool[] = tools.filter(
 
 /** トップページの「Featured Tools」に出す消費者向け3件 */
 export const featuredTools: Tool[] = consumerTools.slice(0, 3);
-
-/** カテゴリの並び順（消費者向けフィルタUIで使用） */
-export const categoryOrder: ToolCategory[] = ['Work', 'Learning', 'Life'];
-
-/** カテゴリの日本語ラベル */
-export const categoryLabel: Record<ToolCategory, string> = {
-  Work: '仕事',
-  Learning: '学び',
-  Life: '暮らし',
-  Developer: '開発ツール',
-};

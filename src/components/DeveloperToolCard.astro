@@ -5,12 +5,18 @@
 // npm / GitHub へのリンクを表示する。
 // =============================================================
 import type { Tool } from '../data/tools';
+import { getLangFromUrl, useTranslations } from '../i18n/ui';
 
 interface Props {
   tool: Tool;
 }
 
 const { tool } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const tagline = tool.tagline?.[lang];
+const highlights = tool.highlights?.[lang];
 ---
 
 <article
@@ -24,8 +30,8 @@ const { tool } = Astro.props;
   </div>
 
   <div class="flex flex-wrap items-center gap-2">
-    <span class="aw-badge bg-gold-soft text-charcoal/80">開発ツール</span>
-    <span class="aw-badge bg-navy text-white">公開中</span>
+    <span class="aw-badge bg-gold-soft text-charcoal/80">{t.devCard.badgeDev}</span>
+    <span class="aw-badge bg-navy text-white">{t.devCard.badgeLive}</span>
     <span class="aw-badge border border-soft-gray text-charcoal/55">npm</span>
   </div>
 
@@ -33,11 +39,11 @@ const { tool } = Astro.props;
     {tool.title}
   </h3>
   {
-    tool.tagline && (
-      <p class="mt-1 font-serif text-base text-gold">{tool.tagline}</p>
+    tagline && (
+      <p class="mt-1 font-serif text-base text-gold">{tagline}</p>
     )
   }
-  <p class="mt-3 text-sm leading-7 text-charcoal">{tool.description}</p>
+  <p class="mt-3 text-sm leading-7 text-charcoal">{tool.description[lang]}</p>
 
   {/* インストール / 実行コマンド */}
   {
@@ -50,10 +56,11 @@ const { tool } = Astro.props;
         <button
           type="button"
           data-copy={tool.install}
+          data-copied={t.devCard.copied}
           class="shrink-0 rounded-md border border-white/15 px-2 py-1 text-[11px] font-medium text-white/80 transition-colors hover:bg-white/10 hover:text-white"
-          aria-label="コマンドをコピー"
+          aria-label={t.devCard.copyAria}
         >
-          コピー
+          {t.devCard.copy}
         </button>
       </div>
     )
@@ -61,9 +68,9 @@ const { tool } = Astro.props;
 
   {/* 要点 */}
   {
-    tool.highlights && tool.highlights.length > 0 && (
+    highlights && highlights.length > 0 && (
       <ul class="mt-5 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
-        {tool.highlights.map((h) => (
+        {highlights.map((h) => (
           <li class="flex items-start gap-2.5 text-sm leading-7 text-charcoal">
             <svg
               class="mt-1.5 h-3.5 w-3.5 shrink-0 text-gold"
@@ -94,7 +101,7 @@ const { tool } = Astro.props;
           rel="noopener noreferrer"
           class="btn-primary"
         >
-          npm で見る
+          {t.devCard.viewNpm}
           <svg
             class="h-4 w-4"
             viewBox="0 0 24 24"
@@ -118,7 +125,7 @@ const { tool } = Astro.props;
           rel="noopener noreferrer"
           class="btn-secondary"
         >
-          GitHub
+          {t.devCard.github}
           <svg
             class="h-4 w-4"
             viewBox="0 0 24 24"
@@ -144,11 +151,12 @@ const { tool } = Astro.props;
     .forEach((btn) => {
       btn.addEventListener('click', async () => {
         const text = btn.dataset.copy ?? '';
+        const copiedLabel = btn.dataset.copied ?? 'Copied';
         if (!navigator.clipboard) return;
         try {
           await navigator.clipboard.writeText(text);
           const prev = btn.textContent;
-          btn.textContent = 'コピー済み';
+          btn.textContent = copiedLabel;
           window.setTimeout(() => {
             btn.textContent = prev;
           }, 1500);

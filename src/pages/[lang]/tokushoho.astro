@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { SITE } from '../../consts';
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizePath,
+  getStaticLangPaths,
+} from '../../i18n/ui';
+
+export const getStaticPaths = getStaticLangPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const tk = t.tokushohoPage;
+const contactHref = localizePath('/contact', lang);
+const pageDesc = `${SITE.name} — ${tk.headerTitle}`;
+
+// 辞書の __EMAIL__ プレースホルダを実際のメールアドレスに差し替える。
+const items = tk.items.map((item) => ({
+  label: item.label,
+  value: item.value === '__EMAIL__' ? SITE.email : item.value,
+}));
+---
+
+<BaseLayout title={tk.pageTitle} description={pageDesc}>
+  <PageHeader eyebrow={tk.eyebrow} title={tk.headerTitle} />
+
+  <section class="py-14 sm:py-18">
+    <div class="aw-prose-container">
+      <p class="text-sm text-charcoal/60">{tk.updatedLabel}{tk.updated}</p>
+
+      <div class="aw-doc mt-8">
+        {
+          tk.note && (
+            <p class="rounded-xl border border-soft-gray bg-white/60 p-4 text-sm leading-7 text-charcoal/80">
+              {tk.note}
+            </p>
+          )
+        }
+        <p>{tk.intro}</p>
+
+        <dl class="mt-8 divide-y divide-charcoal/10 border-y border-charcoal/10">
+          {
+            items.map((item) => (
+              <div class="grid gap-1 py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
+                <dt class="text-sm font-semibold text-navy">{item.label}</dt>
+                <dd class="text-sm leading-7 text-charcoal/80">{item.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <h2>{tk.contactHeading}</h2>
+        <p>
+          {tk.contactBefore}<a href={contactHref}>{tk.contactLink}</a>{tk.contactAfter}
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

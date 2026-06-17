@@ -1,23 +1,29 @@
 ---
+// 404 は言語ルートの外（未マッチURL全般に出る）ため、日英の両方を併記する。
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { useTranslations } from '../i18n/ui';
 
-const pageDesc = 'お探しのページは見つかりませんでした。';
+const ja = useTranslations('ja').notFoundPage;
+const en = useTranslations('en').notFoundPage;
 ---
 
-<BaseLayout title="ページが見つかりません" description={pageDesc} noindex>
+<BaseLayout title={`${ja.pageTitle} / ${en.pageTitle}`} description={ja.description} noindex>
   <section class="aw-container flex flex-col items-center py-24 text-center sm:py-32">
     <span class="font-serif text-6xl font-bold tracking-tight text-gold sm:text-7xl"
       >404</span
     >
     <h1 class="mt-4 font-serif text-2xl font-bold text-navy sm:text-3xl">
-      ページが見つかりませんでした
+      {ja.heading}
     </h1>
-    <p class="mx-auto mt-4 max-w-md text-base leading-8 text-charcoal">
-      お探しのページは移動または削除された可能性があります。トップページから、もう一度お探しください。
+    <p class="mx-auto mt-3 max-w-md text-base leading-8 text-charcoal">
+      {ja.body}
+    </p>
+    <p class="mx-auto mt-2 max-w-md text-sm leading-7 text-charcoal/70">
+      {en.heading} — {en.body}
     </p>
     <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row">
-      <a href="/" class="btn-primary w-full sm:w-auto">トップへ戻る</a>
-      <a href="/tools" class="btn-secondary w-full sm:w-auto">ツールを見る</a>
+      <a href="/ja/" class="btn-primary w-full sm:w-auto">日本語トップ</a>
+      <a href="/en/" class="btn-secondary w-full sm:w-auto">English home</a>
     </div>
   </section>
 </BaseLayout>

@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import DeveloperToolCard from '../../components/DeveloperToolCard.astro';
+import { consumerTools, developerTools } from '../../data/tools';
+import {
+  getLangFromUrl,
+  useTranslations,
+  getStaticLangPaths,
+} from '../../i18n/ui';
+
+export const getStaticPaths = getStaticLangPaths;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const tp = t.toolsPage;
+---
+
+<BaseLayout title={tp.pageTitle} description={tp.description}>
+  <PageHeader
+    eyebrow={tp.pageTitle}
+    title={tp.headerTitle}
+    lead={tp.description}
+  />
+
+  {/* ツール一覧 */}
+  <section class="py-12 sm:py-16">
+    <div class="aw-container">
+      <div class="flex justify-end">
+        <p class="text-sm text-charcoal/60">
+          {tp.count(consumerTools.length)}
+        </p>
+      </div>
+
+      <div class="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {consumerTools.map((tool) => <ToolCard tool={tool} />)}
+      </div>
+    </div>
+  </section>
+
+  {/* --- 開発者向けツール --- */}
+  {
+    developerTools.length > 0 && (
+      <section id="developers" class="border-t border-soft-gray bg-white py-14 sm:py-20">
+        <div class="aw-container">
+          <SectionHeading
+            eyebrow={tp.devEyebrow}
+            title={tp.devTitle}
+            description={tp.devDescription}
+          />
+          <div class="mx-auto mt-10 max-w-3xl space-y-5">
+            {developerTools.map((tool) => (
+              <DeveloperToolCard tool={tool} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

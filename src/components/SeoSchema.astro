@@ -2,10 +2,13 @@
 // =============================================================
 // SeoSchema — JSON-LD 構造化データ（Organization + WebSite）
 // 全ページ共通で <head> に出力し、Google にブランド情報（名称・ロゴ・URL）を伝える。
-// 検索結果でのブランド表示や将来のナレッジパネルの土台になる。
+// description / inLanguage は表示中の言語に合わせる。
 // =============================================================
 import { SITE } from '../consts';
+import { getLangFromUrl, useTranslations } from '../i18n/ui';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const base = SITE.url.replace(/\/$/, '');
 
 const schema = {
@@ -17,14 +20,14 @@ const schema = {
       name: SITE.name,
       url: `${base}/`,
       logo: `${base}/logo/aster-works-logo-icon.png`,
-      description: SITE.description,
+      description: t.meta.description,
     },
     {
       '@type': 'WebSite',
       '@id': `${base}/#website`,
       name: SITE.name,
       url: `${base}/`,
-      inLanguage: SITE.lang,
+      inLanguage: t.meta.htmlLang,
       publisher: { '@id': `${base}/#organization` },
     },
   ],

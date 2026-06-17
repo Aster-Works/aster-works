@@ -1,0 +1,66 @@
+---
+// =============================================================
+// LanguageSwitcher — 言語切替（JA / EN）
+// 現在のページと同一パスのまま言語だけを差し替える（swapLang）。
+// 自動リダイレクトは行わず、ユーザーの明示操作で切り替える。
+// =============================================================
+import { languages, getLangFromUrl, swapLang, useTranslations } from '../i18n/ui';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  /** 配色をヘッダー（明るい背景）/ フッター（ネイビー背景）に合わせる */
+  variant?: 'header' | 'footer';
+}
+
+const { variant = 'header' } = Astro.props;
+const current = getLangFromUrl(Astro.url);
+const t = useTranslations(current);
+
+const entries = (Object.keys(languages) as Lang[]).map((l) => ({
+  lang: l,
+  short: l.toUpperCase(),
+  name: languages[l],
+  href: swapLang(Astro.url.pathname, l),
+  isCurrent: l === current,
+}));
+
+const isFooter = variant === 'footer';
+const activeClass = isFooter ? 'text-white' : 'text-navy';
+const idleClass = isFooter
+  ? 'text-cream/55 hover:text-white'
+  : 'text-charcoal/60 hover:text-navy';
+const sepClass = isFooter ? 'text-cream/25' : 'text-charcoal/25';
+---
+
+<div
+  class="inline-flex items-center gap-1.5 text-xs font-semibold tracking-wide"
+  role="group"
+  aria-label={t.nav.switchLanguage}
+>
+  {
+    entries.map((e, i) => (
+      <>
+        {i > 0 && (
+          <span class={sepClass} aria-hidden="true">
+            /
+          </span>
+        )}
+        {e.isCurrent ? (
+          <span class={activeClass} aria-current="true" lang={e.lang}>
+            {e.short}
+          </span>
+        ) : (
+          <a
+            href={e.href}
+            hreflang={e.lang}
+            lang={e.lang}
+            class={`transition-colors ${idleClass}`}
+            aria-label={e.name}
+          >
+            {e.short}
+          </a>
+        )}
+      </>
+    ))
+  }
+</div>

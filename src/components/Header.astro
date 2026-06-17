@@ -1,13 +1,25 @@
 ---
 // =============================================================
 // Header — 全ページ共通ヘッダー（スティッキー / スマホはトグルメニュー）
+// ナビ項目・aria・ロゴリンクは表示言語（/ja/・/en/）に合わせる。
 // =============================================================
 import Logo from './Logo.astro';
-import { NAV, SITE } from '../consts';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { SITE } from '../consts';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/ui';
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const path = Astro.url.pathname;
+const homeHref = localizePath('/', lang);
+
+const navItems = t.nav.items.map((item) => ({
+  label: item.label,
+  href: localizePath(item.href, lang),
+}));
+
 const isActive = (href: string) =>
-  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
+  href === homeHref ? path === homeHref : path === href || path.startsWith(href);
 ---
 
 <header class="sticky top-0 z-50">
@@ -17,32 +29,36 @@ const isActive = (href: string) =>
   <div class="border-b border-soft-gray bg-background/85 backdrop-blur-md">
     <div class="aw-container flex h-16 items-center justify-between">
       <a
-        href="/"
+        href={homeHref}
         class="-ml-1 rounded-md px-1 py-1.5"
-        aria-label={`${SITE.name} — ホーム`}
+        aria-label={`${SITE.name} — ${t.nav.home}`}
       >
         <Logo variant="horizontal" class="h-9 w-auto" />
       </a>
 
       {/* デスクトップナビ */}
-      <nav class="hidden items-center gap-1 md:flex" aria-label="メインナビゲーション">
-        {
-          NAV.map((item) => (
-            <a
-              href={item.href}
-              class:list={[
-                'rounded-full px-4 py-2 text-sm font-medium tracking-wide transition-colors',
-                isActive(item.href)
-                  ? 'text-navy'
-                  : 'text-charcoal hover:bg-navy/5 hover:text-navy',
-              ]}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-            >
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
+      <div class="hidden items-center gap-2 md:flex">
+        <nav class="flex items-center gap-1" aria-label={t.nav.mainNav}>
+          {
+            navItems.map((item) => (
+              <a
+                href={item.href}
+                class:list={[
+                  'rounded-full px-4 py-2 text-sm font-medium tracking-wide transition-colors',
+                  isActive(item.href)
+                    ? 'text-navy'
+                    : 'text-charcoal hover:bg-navy/5 hover:text-navy',
+                ]}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+        <span class="mx-1 h-4 w-px bg-soft-gray" aria-hidden="true"></span>
+        <LanguageSwitcher variant="header" />
+      </div>
 
       {/* モバイル開閉ボタン */}
       <button
@@ -51,7 +67,9 @@ const isActive = (href: string) =>
         class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-navy transition-colors hover:bg-navy/5 md:hidden"
         aria-controls="mobile-nav"
         aria-expanded="false"
-        aria-label="メニューを開く"
+        aria-label={t.nav.openMenu}
+        data-label-open={t.nav.openMenu}
+        data-label-close={t.nav.closeMenu}
       >
         <svg
           class="i-open h-6 w-6"
@@ -82,11 +100,11 @@ const isActive = (href: string) =>
     <nav
       id="mobile-nav"
       class="hidden border-t border-soft-gray bg-background md:hidden"
-      aria-label="モバイルナビゲーション"
+      aria-label={t.nav.mobileNav}
     >
       <div class="aw-container flex flex-col gap-1 py-3">
         {
-          NAV.map((item) => (
+          navItems.map((item) => (
             <a
               href={item.href}
               class:list={[
@@ -101,6 +119,9 @@ const isActive = (href: string) =>
             </a>
           ))
         }
+        <div class="mt-1 border-t border-soft-gray px-3 pt-3">
+          <LanguageSwitcher variant="header" />
+        </div>
       </div>
     </nav>
   </div>
@@ -112,9 +133,11 @@ const isActive = (href: string) =>
   if (toggle && panel) {
     const iOpen = toggle.querySelector('.i-open');
     const iClose = toggle.querySelector('.i-close');
+    const labelOpen = toggle.getAttribute('data-label-open') ?? 'Open menu';
+    const labelClose = toggle.getAttribute('data-label-close') ?? 'Close menu';
     const setOpen = (open: boolean) => {
       toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      toggle.setAttribute('aria-label', open ? labelClose : labelOpen);
       panel.classList.toggle('hidden', !open);
       iOpen?.classList.toggle('hidden', open);
       iClose?.classList.toggle('hidden', !open);

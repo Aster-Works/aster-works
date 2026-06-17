@@ -1,35 +1,25 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import ToolCard from '../components/ToolCard.astro';
-import DeveloperToolCard from '../components/DeveloperToolCard.astro';
-import CategoryCard from '../components/CategoryCard.astro';
-import { featuredTools, developerTools } from '../data/tools';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import ToolCard from '../../components/ToolCard.astro';
+import DeveloperToolCard from '../../components/DeveloperToolCard.astro';
+import CategoryCard from '../../components/CategoryCard.astro';
+import { featuredTools, developerTools } from '../../data/tools';
+import {
+  getLangFromUrl,
+  useTranslations,
+  localizePath,
+  getStaticLangPaths,
+} from '../../i18n/ui';
 
-const categories = [
-  {
-    name: 'Work' as const,
-    label: '仕事',
-    description: '口コミ返信、文章作成、業務整理、テンプレート。',
-  },
-  {
-    name: 'Learning' as const,
-    label: '学び',
-    description: '学習計画、ノート整理、研究補助、教材作成。',
-  },
-  {
-    name: 'Life' as const,
-    label: '暮らし',
-    description: '費用シミュレーション、家計管理、暮らしの見える化。',
-  },
-];
+export const getStaticPaths = getStaticLangPaths;
 
-const conceptPoints = [
-  { lead: '大きなシステム', body: 'よりも、すぐ使える小さな道具を。' },
-  { lead: '難しい説明', body: 'よりも、迷わず使える画面を。' },
-  { lead: '派手な機能', body: 'よりも、毎日の助けになる実用性を。' },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const home = t.home;
+const toolsHref = localizePath('/tools', lang);
+const contactHref = localizePath('/contact', lang);
 ---
 
 <BaseLayout>
@@ -40,15 +30,15 @@ const conceptPoints = [
     <div class="aw-container">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <SectionHeading
-          eyebrow="Tools"
-          title="Tools"
-          description="日々の作業を少し軽くする、シンプルなツール。"
+          eyebrow={home.featured.eyebrow}
+          title={home.featured.title}
+          description={home.featured.description}
         />
         <a
-          href="/tools"
+          href={toolsHref}
           class="hidden items-center gap-1.5 text-sm font-semibold text-navy transition-colors hover:text-gold sm:inline-flex"
         >
-          すべてのツールを見る
+          {t.actions.viewAllTools}
           <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
         </a>
       </div>
@@ -58,7 +48,7 @@ const conceptPoints = [
       </div>
 
       <div class="mt-8 sm:hidden">
-        <a href="/tools" class="btn-secondary w-full">すべてのツールを見る</a>
+        <a href={toolsHref} class="btn-secondary w-full">{t.actions.viewAllTools}</a>
       </div>
     </div>
   </section>
@@ -69,9 +59,9 @@ const conceptPoints = [
       <section id="products" class="border-t border-soft-gray py-16 sm:py-20">
         <div class="aw-container">
           <SectionHeading
-            eyebrow="Products"
-            title="公開中のプロダクト"
-            description="個人開発者・Claude Code ユーザー向けに、実際に使えるツールを公開しています。"
+            eyebrow={home.products.eyebrow}
+            title={home.products.title}
+            description={home.products.description}
           />
           <div class="mx-auto mt-10 max-w-3xl space-y-5">
             {developerTools.map((tool) => (
@@ -87,12 +77,12 @@ const conceptPoints = [
   <section class="border-y border-soft-gray bg-white py-16 sm:py-20">
     <div class="aw-container">
       <SectionHeading
-        eyebrow="For your everyday"
-        title="仕事・学び・暮らしのために。"
+        eyebrow={home.categoriesSection.eyebrow}
+        title={home.categoriesSection.title}
         align="center"
       />
       <div class="mx-auto mt-10 grid max-w-5xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {categories.map((c) => <CategoryCard {...c} />)}
+        {home.categories.map((c) => <CategoryCard {...c} />)}
       </div>
     </div>
   </section>
@@ -102,13 +92,13 @@ const conceptPoints = [
     <div class="aw-container">
       <div class="grid items-start gap-10 lg:grid-cols-[0.85fr_1fr] lg:gap-16">
         <SectionHeading
-          eyebrow="Concept"
-          title="Aster Works が大切にしていること"
+          eyebrow={home.concept.eyebrow}
+          title={home.concept.title}
         />
         <div>
           <ul class="space-y-4">
             {
-              conceptPoints.map((p) => (
+              home.concept.points.map((p) => (
                 <li class="flex items-start gap-3">
                   <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gold" aria-hidden="true" />
                   <p class="text-base leading-8 text-charcoal">
@@ -120,7 +110,7 @@ const conceptPoints = [
             }
           </ul>
           <p class="mt-7 border-l-2 border-gold/40 pl-5 text-base leading-8 text-charcoal">
-            Aster Works は、仕事・学び・暮らしの中にある小さな手間や迷いを減らすためのツールをつくっています。
+            {home.concept.quote}
           </p>
         </div>
       </div>
@@ -132,17 +122,11 @@ const conceptPoints = [
     <div class="aw-container">
       <div class="mx-auto max-w-3xl">
         <SectionHeading
-          eyebrow="Approach"
-          title="役立つことを、いちばん大切に。"
+          eyebrow={home.approach.eyebrow}
+          title={home.approach.title}
         />
         <div class="mt-6 space-y-5 text-base leading-8 text-charcoal">
-          <p>
-            Aster Works
-            は、Web技術、テンプレート設計、必要に応じたAI活用を組み合わせて、日々の作業を助ける実用的なデジタルツールをつくっています。
-          </p>
-          <p>
-            技術そのものを前面に出すよりも、使いやすく、わかりやすく、実際に役立つことを大切にしています。
-          </p>
+          {home.approach.body.map((p) => <p>{p}</p>)}
         </div>
       </div>
     </div>
@@ -156,14 +140,14 @@ const conceptPoints = [
       >
         <div class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-gold/10 blur-2xl" aria-hidden="true"></div>
         <h2 class="font-serif text-2xl font-bold tracking-tight text-navy sm:text-3xl">
-          小さな道具を、少しずつ。
+          {home.cta.title}
         </h2>
         <p class="mx-auto mt-4 max-w-xl text-base leading-8 text-charcoal">
-          公開中・準備中のツールをまとめています。ご要望やご相談もお気軽にどうぞ。
+          {home.cta.body}
         </p>
         <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a href="/tools" class="btn-primary w-full sm:w-auto">ツールを見る</a>
-          <a href="/contact" class="btn-secondary w-full sm:w-auto">お問い合わせ</a>
+          <a href={toolsHref} class="btn-primary w-full sm:w-auto">{t.actions.viewTools}</a>
+          <a href={contactHref} class="btn-secondary w-full sm:w-auto">{t.actions.contact}</a>
         </div>
       </div>
     </div>

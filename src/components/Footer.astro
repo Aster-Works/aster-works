@@ -1,9 +1,25 @@
 ---
 // =============================================================
 // Footer — 全ページ共通フッター（ネイビー背景で信頼感のある締め）
+// リンク・コピー・aria は表示言語（/ja/・/en/）に合わせる。
 // =============================================================
 import Logo from './Logo.astro';
-import { NAV, FOOTER_LINKS, SITE } from '../consts';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { SITE } from '../consts';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const homeHref = localizePath('/', lang);
+
+const navItems = t.nav.items.map((item) => ({
+  label: item.label,
+  href: localizePath(item.href, lang),
+}));
+const infoItems = t.footer.links.map((item) => ({
+  label: item.label,
+  href: localizePath(item.href, lang),
+}));
 ---
 
 <footer class="mt-24 bg-navy text-cream/80">
@@ -11,23 +27,26 @@ import { NAV, FOOTER_LINKS, SITE } from '../consts';
     <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
       {/* ブランド */}
       <div class="max-w-sm">
-        <a href="/" class="inline-block rounded-md" aria-label={`${SITE.name} — ホーム`}>
+        <a href={homeHref} class="inline-block rounded-md" aria-label={`${SITE.name} — ${t.nav.home}`}>
           <Logo variant="white" class="h-10 w-auto" />
         </a>
         <p class="mt-4 text-sm leading-7 text-cream/70">
-          {SITE.shortCopy}
+          {t.meta.shortCopy}
         </p>
+        <div class="mt-5">
+          <LanguageSwitcher variant="footer" />
+        </div>
       </div>
 
       {/* リンク群 */}
-      <nav class="grid grid-cols-2 gap-x-12 gap-y-8 sm:grid-cols-2" aria-label="フッターナビゲーション">
+      <nav class="grid grid-cols-2 gap-x-12 gap-y-8 sm:grid-cols-2" aria-label={t.nav.footerNav}>
         <div>
           <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
-            Menu
+            {t.footer.menuHeading}
           </h2>
           <ul class="mt-4 space-y-3 text-sm">
             {
-              NAV.map((item) => (
+              navItems.map((item) => (
                 <li>
                   <a
                     href={item.href}
@@ -42,11 +61,11 @@ import { NAV, FOOTER_LINKS, SITE } from '../consts';
         </div>
         <div>
           <h2 class="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
-            Information
+            {t.footer.infoHeading}
           </h2>
           <ul class="mt-4 space-y-3 text-sm">
             {
-              FOOTER_LINKS.map((item) => (
+              infoItems.map((item) => (
                 <li>
                   <a
                     href={item.href}
@@ -66,8 +85,8 @@ import { NAV, FOOTER_LINKS, SITE } from '../consts';
     <div
       class="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-cream/60 sm:flex-row sm:items-center sm:justify-between"
     >
-      <p>&copy; {SITE.copyrightYear} {SITE.name}. All rights reserved.</p>
-      <p class="tracking-wide">{SITE.tagline}</p>
+      <p>&copy; {SITE.copyrightYear} {SITE.name}. {t.footer.rights}</p>
+      <p class="tracking-wide">{t.meta.tagline}</p>
     </div>
   </div>
 </footer>

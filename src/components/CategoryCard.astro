@@ -71,7 +71,7 @@ const { name, label, description } = Astro.props;
 
   <div class="mt-4 flex items-baseline gap-2.5">
     <h3 class="font-serif text-lg font-bold text-navy">{name}</h3>
-    <span class="text-sm font-medium text-charcoal/55">{label}</span>
+    {label && <span class="text-sm font-medium text-charcoal/55">{label}</span>}
   </div>
   <p class="mt-2 text-sm leading-7 text-charcoal">{description}</p>
 </div>

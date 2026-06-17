@@ -1,6 +1,8 @@
 ---
 // =============================================================
 // BaseLayout — 全ページ共通シェル（SEO・フォント・Header/Footer）
+// 言語は URL（/ja/・/en/）から判定し、title/description/locale や
+// hreflang 代替リンクを言語に応じて出力する。
 // =============================================================
 import '../styles/global.css';
 import Header from '../components/Header.astro';
@@ -9,6 +11,11 @@ import SeoSchema from '../components/SeoSchema.astro';
 import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
 import { SITE } from '../consts';
+import {
+  getLangFromUrl,
+  useTranslations,
+  getAlternateLinks,
+} from '../i18n/ui';
 
 interface Props {
   /** ページ固有タイトル。未指定ならトップの既定タイトル。 */
@@ -22,29 +29,49 @@ interface Props {
   noindex?: boolean;
 }
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
 const {
   title,
-  description = SITE.description,
+  description = t.meta.description,
   image = SITE.ogImage,
   rawTitle = false,
   noindex = false,
 } = Astro.props;
 
-const pageTitle = title ? (rawTitle ? title : `${title} | ${SITE.name}`) : SITE.title;
+const pageTitle = title
+  ? rawTitle
+    ? title
+    : `${title} | ${SITE.name}`
+  : t.meta.siteTitle;
 
 const siteBase = Astro.site ?? new URL(SITE.url);
 const canonicalURL = new URL(Astro.url.pathname, siteBase);
 const ogImageURL = new URL(image, siteBase);
+
+// hreflang 代替（自言語・他言語・x-default）。404 等の noindex では出さない。
+const alternates = noindex
+  ? []
+  : getAlternateLinks(Astro.url.pathname).map((a) => ({
+      hreflang: a.hreflang,
+      href: new URL(a.path, siteBase).href,
+    }));
 ---
 
 <!doctype html>
-<html lang={SITE.lang}>
+<html lang={t.meta.htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
+    {
+      alternates.map((a) => (
+        <link rel="alternate" hreflang={a.hreflang} href={a.href} />
+      ))
+    }
     <meta
       name="robots"
       content={noindex ? 'noindex, nofollow' : 'index, follow'}
@@ -73,7 +100,7 @@ const ogImageURL = new URL(image, siteBase);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImageURL} />
-    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:locale" content={t.meta.locale} />
 
     {/* Twitter */}
     <meta name="twitter:card" content="summary_large_image" />
@@ -97,7 +124,7 @@ const ogImageURL = new URL(image, siteBase);
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-navy focus:px-4 focus:py-2 focus:text-sm focus:text-white"
-      >本文へスキップ</a
+      >{t.meta.skipToContent}</a
     >
     <Header />
     <main id="main" class="flex-1">
