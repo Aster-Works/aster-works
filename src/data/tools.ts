@@ -77,6 +77,17 @@ export const tools: Tool[] = [
     },
   },
   {
+    title: 'Aster Support Navi',
+    slug: 'aster-support-navi',
+    category: 'Life',
+    status: 'available',
+    description: {
+      ja: '住所と生活状況から、確認すべき支援制度と次にやることを整理する生活支援ナビです。東京23区の出産・子育て支援から公開中。',
+      en: 'A support-program navigator that helps you find public assistance programs to check by address and life situation, then organize the next steps. Starting with childbirth and childcare support in Tokyo’s 23 wards.',
+    },
+    href: 'https://astersupport.com/',
+  },
+  {
     title: 'Aster Tools',
     slug: 'aster-tools',
     category: 'Life',
