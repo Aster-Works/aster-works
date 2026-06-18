@@ -42,6 +42,12 @@ export interface Tool {
   repoUrl?: string;
   /** カードに出す要点（3〜4点・言語別） */
   highlights?: L10nList;
+  /** 実行結果などのデモ画像（public 配下のパス） */
+  demoImage?: {
+    src: string;
+    alt: L10n;
+    caption: L10n;
+  };
 }
 
 export const tools: Tool[] = [
@@ -58,18 +64,29 @@ export const tools: Tool[] = [
       ja: 'つなぐ前に、ひと目で安全確認。',
       en: 'Check safety at a glance, before you connect.',
     },
-    install: 'npx @asterworks/aster-guard scan',
+    install: 'npx -y @asterworks/aster-guard scan',
     npmUrl: 'https://www.npmjs.com/package/@asterworks/aster-guard',
-    repoUrl: 'https://github.com/jimiaki7/aster-guard',
+    repoUrl: 'https://github.com/Aster-Works/aster-guard',
+    demoImage: {
+      src: '/images/aster-guard-scan-demo.png',
+      alt: {
+        ja: 'Aster Guardがデモ用の危険なMCP設定をスキャンし、重大・高・中の検出結果を表示しているターミナル画面',
+        en: 'Terminal screenshot of Aster Guard scanning a sample risky MCP config and showing critical, high, and medium findings',
+      },
+      caption: {
+        ja: 'デモ用の危険な .mcp.json をスキャンした結果。秘密情報は架空・マスク済みです。',
+        en: 'Demo output from a sample risky .mcp.json. Secrets are fake and redacted.',
+      },
+    },
     highlights: {
       ja: [
-        '11種類のリスクを静的解析で検出（プロンプトインジェクション・秘密情報・危険なインストール等）',
+        '12種類のリスクを静的解析で検出（プロンプトインジェクション・秘密情報・危険なインストール等）',
         'リスクスコア（0–100）と評価（A–F）を、日本語／英語のレポートで提示',
         'ローカル完結・外部送信なし。既定は読み取り専用で安全',
         'Claude Code から呼べる MCP サーバー／GitHub Actions にも対応',
       ],
       en: [
-        'Detects 11 risk types via static analysis (prompt injection, secrets, dangerous installs, and more)',
+        'Detects 12 risk types via static analysis (prompt injection, secrets, dangerous installs, and more)',
         'Reports a risk score (0–100) and grade (A–F) in a Japanese or English report',
         'Runs fully local with no external transmission; read-only by default for safety',
         'Works as an MCP server callable from Claude Code, and in GitHub Actions',

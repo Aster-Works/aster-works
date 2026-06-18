@@ -17,6 +17,7 @@ const t = useTranslations(lang);
 
 const tagline = tool.tagline?.[lang];
 const highlights = tool.highlights?.[lang];
+const demoImage = tool.demoImage;
 ---
 
 <article
@@ -63,6 +64,26 @@ const highlights = tool.highlights?.[lang];
           {t.devCard.copy}
         </button>
       </div>
+    )
+  }
+
+  {/* デモ画像 */}
+  {
+    demoImage && (
+      <figure class="mt-5">
+        <div class="overflow-hidden rounded-lg border border-navy/10 bg-navy shadow-sm">
+          <img
+            src={demoImage.src}
+            alt={demoImage.alt[lang]}
+            loading="lazy"
+            decoding="async"
+            class="block w-full"
+          />
+        </div>
+        <figcaption class="mt-2 text-xs leading-6 text-charcoal/60">
+          {demoImage.caption[lang]}
+        </figcaption>
+      </figure>
     )
   }
 
