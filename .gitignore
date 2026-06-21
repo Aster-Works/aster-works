@@ -28,3 +28,5 @@ _logo_backup/
 
 # Claude Code ローカル設定（プレビュー launch.json 等）
 .claude/
+.env
+.env.local
