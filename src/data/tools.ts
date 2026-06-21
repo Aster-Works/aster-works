@@ -116,6 +116,36 @@ export const tools: Tool[] = [
     href: 'https://astertools.app/',
   },
   {
+    title: 'Aster Business Navi',
+    slug: 'aster-business-navi',
+    category: 'Work',
+    status: 'coming-soon',
+    description: {
+      ja: '会社サイトのURLから、Web・採用・信頼性の見落としと次に確認すべき改善点を整理する、中小企業向けの事業診断ナビです。',
+      en: 'A business diagnostic navigator for small teams that reviews a company URL and organizes overlooked web, hiring, and trust signals into next checks.',
+    },
+  },
+  {
+    title: 'Aster Signal',
+    slug: 'aster-signal',
+    category: 'Work',
+    status: 'coming-soon',
+    description: {
+      ja: '店舗の開業・移転・閉業の兆しを公開情報から検知し、営業すべき相手・タイミング・提案メモを根拠URL付きで整理するB2B営業シグナルサービスです。',
+      en: 'A B2B sales-signal service that detects signs of restaurant openings, relocations, and closures from public sources, then organizes who to approach, when, and what to propose with evidence URLs.',
+    },
+  },
+  {
+    title: 'Aster Compass',
+    slug: 'aster-compass',
+    category: 'Learning',
+    status: 'coming-soon',
+    description: {
+      ja: '関心・得意・価値観を5分で整理し、本人・保護者・先生が同じ一枚を見ながら進路の話を始めるための進路探索ツールです。',
+      en: 'A career-exploration tool that helps students organize interests, strengths, and values in five minutes, then share one page to start a conversation with parents or teachers.',
+    },
+  },
+  {
     title: 'Synaxis',
     slug: 'synaxis',
     category: 'Work',
