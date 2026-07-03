@@ -94,6 +94,48 @@ export const tools: Tool[] = [
     },
   },
   {
+    title: 'Aster Agent Console',
+    slug: 'aster-agent-console',
+    category: 'Developer',
+    status: 'available',
+    description: {
+      ja: 'Claude Code と Codex の作業を、安全性・作業監査・成果の3軸で可視化する、ローカルファーストのダッシュボードです。危険なコマンド・秘密情報の露出・MCP設定のリスクを手元で点検できます。',
+      en: 'A local-first dashboard that makes Claude Code and Codex work visible across safety, work-audit, and outcomes — surfacing risky commands, secret exposure, and MCP config risks, all on your machine.',
+    },
+    tagline: {
+      ja: 'AIエージェントの作業を、安全に見える化。',
+      en: "See your AI agents' work — safely.",
+    },
+    install: 'npx -y @asterworks/agent-console dashboard',
+    npmUrl: 'https://www.npmjs.com/package/@asterworks/agent-console',
+    repoUrl: 'https://github.com/Aster-Works/aster-agent-console',
+    demoImage: {
+      src: '/images/aster-agent-console-overview.png',
+      alt: {
+        ja: 'Aster Agent Console のダッシュボード。Claude Code と Codex のセッション・コスト・リスクを一覧する Overview 画面',
+        en: 'Aster Agent Console dashboard — the Overview screen showing Claude Code and Codex sessions, cost, and risk at a glance',
+      },
+      caption: {
+        ja: 'デモデータで表示したダッシュボード。数値・秘密情報は架空です。',
+        en: 'Dashboard shown with built-in demo data. Figures and secrets are fictitious.',
+      },
+    },
+    highlights: {
+      ja: [
+        'セッションを「プロンプト→ツール呼び出し→差分→テスト→コミット」の流れで再生',
+        '危険なコマンド・秘密情報の露出・MCP設定リスクを、証拠と対処法つきで検出',
+        'Aster Guard 相当の MCP 設定スキャン（AAC-* ルール・A〜F 評価）を内蔵',
+        'ローカル完結・外部送信なし。秘密情報は保存前にマスク、127.0.0.1 のみで待受',
+      ],
+      en: [
+        'Replays a session as prompt → tool call → diff → tests → commit',
+        'Flags dangerous commands, secret exposure, and MCP config risks with evidence and a fix',
+        'Built-in MCP config scan (AAC-* rules, A–F grade) mirroring Aster Guard',
+        'Fully local, nothing uploaded — secrets redacted before storage, binds 127.0.0.1 only',
+      ],
+    },
+  },
+  {
     title: 'Aster Support Navi',
     slug: 'aster-support-navi',
     category: 'Life',
