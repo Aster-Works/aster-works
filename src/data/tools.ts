@@ -94,8 +94,8 @@ export const tools: Tool[] = [
     },
   },
   {
-    title: 'Aster Agent Console',
-    slug: 'aster-agent-console',
+    title: 'Aster Agent Audit',
+    slug: 'aster-agent-audit',
     category: 'Developer',
     status: 'available',
     description: {
@@ -106,14 +106,14 @@ export const tools: Tool[] = [
       ja: 'AIエージェントの作業を、安全に見える化。',
       en: "See your AI agents' work — safely.",
     },
-    install: 'npx -y @asterworks/agent-console dashboard',
-    npmUrl: 'https://www.npmjs.com/package/@asterworks/agent-console',
-    repoUrl: 'https://github.com/Aster-Works/aster-agent-console',
+    install: 'npx -y @asterworks/agent-audit dashboard',
+    npmUrl: 'https://www.npmjs.com/package/@asterworks/agent-audit',
+    repoUrl: 'https://github.com/Aster-Works/aster-agent-audit',
     demoImage: {
-      src: '/images/aster-agent-console-overview.png',
+      src: '/images/aster-agent-audit-overview.png',
       alt: {
-        ja: 'Aster Agent Console のダッシュボード。Claude Code と Codex のセッション・コスト・リスクを一覧する Overview 画面',
-        en: 'Aster Agent Console dashboard — the Overview screen showing Claude Code and Codex sessions, cost, and risk at a glance',
+        ja: 'Aster Agent Audit のダッシュボード。Claude Code と Codex のセッション・コスト・リスクを一覧する Overview 画面',
+        en: 'Aster Agent Audit dashboard — the Overview screen showing Claude Code and Codex sessions, cost, and risk at a glance',
       },
       caption: {
         ja: 'デモデータで表示したダッシュボード。数値・秘密情報は架空です。',
